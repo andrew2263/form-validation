@@ -37,7 +37,7 @@ const Form: React.FC = () => {
 
   return (
     <>
-      <form>
+      <form className="mb-10">
         <div className="mb-2">
           <input
             className={`border-2 rounded-lg mr-3 ${(nameIsTouched && !nameIsValid) ? "border-red-600" : "border-gray-400"}`}
@@ -68,6 +68,10 @@ const Form: React.FC = () => {
           Submit
         </button>
       </form>
+      <div className="grid grid-cols-1 sm:grid-cols-4 gap-2">
+        <div className="h-20 bg-red-950 sm:col-span-3"></div>
+        <div className="h-20 bg-red-950 sm:col-span-1"></div>
+      </div>
     </>
   );
 };

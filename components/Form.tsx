@@ -69,7 +69,7 @@ const Form: React.FC = () => {
         </button>
       </form>
       <div className="grid grid-cols-1 sm:grid-cols-4 gap-2">
-        <div className="h-20 bg-red-950 sm:col-span-3"></div>
+        <div className="h-20 bg-red-950 sm:col-span-3 shadow-xl shadow-slate-400"></div>
         <div className="h-20 bg-red-950 sm:col-span-1"></div>
       </div>
     </>

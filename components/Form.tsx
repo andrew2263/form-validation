@@ -1,5 +1,5 @@
-import axios from "axios";
 import React, { useState, useEffect } from "react";
+import { SendDataInterface } from "@/SendDataInterface";
 
 const Form: React.FC = () => {
   const [nameSymbols, setNameSymbols] = useState(0);
@@ -39,55 +39,8 @@ const Form: React.FC = () => {
     setEmailIsTouched(true);
   };
 
-  const sendData = async (data: object, onSuccess: (a: string) => void) => {
-    const response = await fetch(
-      "https://formnext-e6766-default-rtdb.firebaseio.com/data.json",
-      {
-        method: "POST",
-        body: JSON.stringify(data),
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error("Fetch error");
-    } else {
-      onSuccess("Form is submitted!");
-    }
-  };
-
-  const instance = axios.create({
-    baseURL: "https://formnext-e6766-default-rtdb.firebaseio.com/",
-    timeout: 1000,
-    headers: { "X-Custom-Header": "foobar" },
-  });
-
-  const sendAxiosData = async (data: { name: string; email: string }) => {
-    /*
-    await axios
-      .post(
-        "https://formnext-e6766-default-rtdb.firebaseio.com/axios-data.json",
-        {
-          name: data.name,
-          email: data.email,
-        }
-      )
-      .then((response) => {
-        alert("Form is submitted!");
-      })
-      .catch((error) => {
-        throw new Error(error);
-      });
-*/
-    await instance.post("axios-data.json", {
-      name: data.name,
-      email: data.email,
-    })
-    .then((response) => {
-      alert("Form is submitted!");
-    })
-    .catch((error) => {
-      throw new Error(error);
-    });
+  const sendDataUsingService = (data: {name: string, email: string}) => {
+    SendDataInterface.sendForm(data);
   };
 
   const formSubmitHandler = (ev: any) => {
@@ -97,8 +50,7 @@ const Form: React.FC = () => {
       email: emailValue,
     };
 
-    //sendData(user, alert);
-    sendAxiosData(user);
+    sendDataUsingService(user);
 
     setNameValue("");
     setEmailValue("");

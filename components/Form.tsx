@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { SendDataInterface } from "@/SendDataInterface";
 
@@ -12,6 +13,8 @@ const Form: React.FC = () => {
 
   const [nameValue, setNameValue] = useState("");
   const [emailValue, setEmailValue] = useState("");
+  const [messageValue, setMessageValue] = useState("");
+  const [subjectValue, setSubjectValue] = useState("");
 
   let isEmail: RegExp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
@@ -39,7 +42,15 @@ const Form: React.FC = () => {
     setEmailIsTouched(true);
   };
 
-  const sendDataUsingService = (data: {name: string, email: string}) => {
+  const subjectChangeHandler = (ev: React.ChangeEvent<HTMLInputElement>) => {
+    setSubjectValue(ev.target.value);
+  };
+
+  const messageChangeHandler = (ev: React.ChangeEvent<HTMLInputElement>) => {
+    setMessageValue(ev.target.value);
+  };
+
+  const sendDataUsingService = (data: { name: string; email: string }) => {
     SendDataInterface.sendForm(data);
   };
 
@@ -50,15 +61,37 @@ const Form: React.FC = () => {
       email: emailValue,
     };
 
-    sendDataUsingService(user);
-
+    //sendDataUsingService(user);
+    SendDataInterface.sendPet({
+      id: 102,
+      name: user.name,
+      category: { id: 103, name: user.name },
+    });
+    /*axios
+      .post("https://mailthis.to/andrew2263@gmail.com", {
+        email: "foo@bar.co",
+        _subject: "hi!",
+        message: "Test",
+      })
+      .then(() => {
+        location.href = "https://mailthis.to/confirm";
+      });
+*/
     setNameValue("");
     setEmailValue("");
+    setSubjectValue("");
+    setMessageValue("");
   };
 
   return (
     <>
-      <form onSubmit={formSubmitHandler} className="mb-10">
+      <form
+        onSubmit={formSubmitHandler}
+        action="https://mailthis.to/"
+        method="POST"
+        encType="multipart/form-data"
+        className="mb-10"
+      >
         <div className="mb-2">
           <input
             className={`border-2 rounded-lg mr-3 ${
@@ -94,6 +127,28 @@ const Form: React.FC = () => {
           <span className={!emailIsValid ? "text-red-600" : "text-slate-800"}>
             {emailSymbols} / 50
           </span>
+        </div>
+        <div className="mb-2">
+          <input
+            id="subject"
+            name="_subject"
+            className="border-2 rounded-lg mr-3 border-gray-800"
+            type="text"
+            value={subjectValue}
+            placeholder="Subject"
+            onChange={subjectChangeHandler}
+          />
+        </div>
+        <div className="mb-2">
+          <input
+            id="message"
+            name="message"
+            className="border-2 rounded-lg mr-3 border-gray-800"
+            type="text"
+            value={messageValue}
+            placeholder="Subject"
+            onChange={messageChangeHandler}
+          />
         </div>
         <button
           type="submit"

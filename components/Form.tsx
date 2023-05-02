@@ -1,4 +1,4 @@
-import axios from "axios";
+import parsePhoneNumber, { PhoneNumber } from "libphonenumber-js";
 import React, { useState, useEffect } from "react";
 import { SendDataInterface } from "@/SendDataInterface";
 
@@ -83,6 +83,11 @@ const Form: React.FC = () => {
     setMessageValue("");
   };
 
+  const phoneNumber1 : PhoneNumber | undefined = parsePhoneNumber("+37322410273");
+  const phoneNumber2 : PhoneNumber | undefined = parsePhoneNumber("+74957704027");
+  const phoneNumber3 : PhoneNumber | undefined = parsePhoneNumber("+40213036969");
+  const phoneNumber4 : PhoneNumber | undefined = parsePhoneNumber("+380442372060");
+
   return (
     <>
       <form
@@ -161,6 +166,12 @@ const Form: React.FC = () => {
       <div className="grid grid-cols-1 sm:grid-cols-4 gap-2">
         <div className="h-20 bg-red-950 sm:col-span-3 shadow-xl shadow-slate-400"></div>
         <div className="h-20 bg-red-950 sm:col-span-1"></div>
+      </div>
+      <div className="border-2 border-gray-700 p-5">
+        <p>{phoneNumber1?.formatInternational()}</p>
+        <p>{phoneNumber2?.formatInternational()}</p>
+        <p>{phoneNumber3?.formatInternational()}</p>
+        <p>{phoneNumber4?.formatInternational()}</p>
       </div>
     </>
   );

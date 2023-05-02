@@ -1,3 +1,4 @@
+//https://www.npmjs.com/package/libphonenumber-js
 import parsePhoneNumber, { PhoneNumber } from "libphonenumber-js";
 import React, { useState, useEffect } from "react";
 import { SendDataInterface } from "@/SendDataInterface";
@@ -88,6 +89,53 @@ const Form: React.FC = () => {
   const phoneNumber3 : PhoneNumber | undefined = parsePhoneNumber("+40213036969");
   const phoneNumber4 : PhoneNumber | undefined = parsePhoneNumber("+380442372060");
 
+  const phone5 : string = "+37322410273";
+  const phone6 : string = "+74957704027";
+  const phone7 : string = "+40213036969";
+  const phone8 : string = "+380442372060";
+
+  const oneDigit: string[] = ["1", "7"]
+  const twoDigits: string[] = ["20", "27", "28", "30", "31", "32", "33", "34", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "51", "52", "53", "54", "55", "56", "57", "58", "60", "61", "62", "63", "64", "65", "66", "81", "82", "84", "86", "90", "91", "92", "93", "94", "95", "98"];
+
+  const numberDigit = (phone: string) => {
+    for (let i = 0; i < oneDigit.length; i++) {
+      if (phone.substring(1, 2) === oneDigit[i]) {
+        return 1;
+      }
+    }
+    for (let j = 0; j < twoDigits.length; j++) {
+      if (phone.substring(1, 3) === twoDigits[j]) {
+        return 2;
+      }
+    }
+    return 3;
+  }
+
+  const parsePhone = (phone: string) => {
+    const phoneArr = phone.split("");
+    const phoneArrChange = [...phoneArr];
+    let el = 4;
+    let spaceNumbers = Math.ceil((phoneArr.length - 1)/3) - 1;
+    
+    if (numberDigit(phone) === 1) {
+      spaceNumbers = Math.ceil((phoneArr.length - 1)/3);
+      el = 2;
+    }
+    if (numberDigit(phone) === 2) {
+      el = 3;
+    }
+
+    for (let i = 0; i < spaceNumbers; i++) {
+      phoneArrChange.splice(el, 0, " ");
+      if (i === spaceNumbers - 2 && phoneArrChange.length - el < 7) {
+        el = el + 3;
+      } else { 
+        el = el + 4;
+      }
+    }
+    return phoneArrChange.join("");
+  }
+
   return (
     <>
       <form
@@ -172,6 +220,12 @@ const Form: React.FC = () => {
         <p>{phoneNumber2?.formatInternational()}</p>
         <p>{phoneNumber3?.formatInternational()}</p>
         <p>{phoneNumber4?.formatInternational()}</p>
+      </div>
+      <div className="border-2 border-gray-700 p-5">
+        <p>{parsePhone(phone5)}</p>
+        <p>{parsePhone(phone6)}</p>
+        <p>{parsePhone(phone7)}</p>
+          <p>{parsePhone(phone8)}</p>
       </div>
     </>
   );

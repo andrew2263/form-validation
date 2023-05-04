@@ -84,18 +84,68 @@ const Form: React.FC = () => {
     setMessageValue("");
   };
 
-  const phoneNumber1 : PhoneNumber | undefined = parsePhoneNumber("+37322410273");
-  const phoneNumber2 : PhoneNumber | undefined = parsePhoneNumber("+74957704027");
-  const phoneNumber3 : PhoneNumber | undefined = parsePhoneNumber("+40213036969");
-  const phoneNumber4 : PhoneNumber | undefined = parsePhoneNumber("+380442372060");
+  const phoneNumber1: PhoneNumber | undefined =
+    parsePhoneNumber("+37322410273");
+  const phoneNumber2: PhoneNumber | undefined =
+    parsePhoneNumber("+74957704027");
+  const phoneNumber3: PhoneNumber | undefined =
+    parsePhoneNumber("+40213036969");
+  const phoneNumber4: PhoneNumber | undefined =
+    parsePhoneNumber("+380442372060");
 
-  const phone5 : string = "+37322410273";
-  const phone6 : string = "+74957704027";
-  const phone7 : string = "+40213036969";
-  const phone8 : string = "+380442372060";
+  const phone5: string = "+37322410273";
+  const phone6: string = "+74957704027";
+  const phone7: string = "+40213036969";
+  const phone8: string = "+380442372060";
 
-  const oneDigit: string[] = ["1", "7"]
-  const twoDigits: string[] = ["20", "27", "28", "30", "31", "32", "33", "34", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "51", "52", "53", "54", "55", "56", "57", "58", "60", "61", "62", "63", "64", "65", "66", "81", "82", "84", "86", "90", "91", "92", "93", "94", "95", "98"];
+  const oneDigit: string[] = ["1", "7"];
+  const twoDigits: string[] = [
+    "20",
+    "27",
+    "28",
+    "30",
+    "31",
+    "32",
+    "33",
+    "34",
+    "39",
+    "40",
+    "41",
+    "42",
+    "43",
+    "44",
+    "45",
+    "46",
+    "47",
+    "48",
+    "49",
+    "51",
+    "52",
+    "53",
+    "54",
+    "55",
+    "56",
+    "57",
+    "58",
+    "60",
+    "61",
+    "62",
+    "63",
+    "64",
+    "65",
+    "66",
+    "81",
+    "82",
+    "84",
+    "86",
+    "90",
+    "91",
+    "92",
+    "93",
+    "94",
+    "95",
+    "98",
+  ];
 
   const numberDigit = (phone: string) => {
     for (let i = 0; i < oneDigit.length; i++) {
@@ -109,16 +159,16 @@ const Form: React.FC = () => {
       }
     }
     return 3;
-  }
+  };
 
   const parsePhone = (phone: string) => {
     const phoneArr = phone.split("");
     const phoneArrChange = [...phoneArr];
     let el = 4;
-    let spaceNumbers = Math.ceil((phoneArr.length - 1)/3) - 1;
-    
+    let spaceNumbers = Math.ceil((phoneArr.length - 1) / 3) - 1;
+
     if (numberDigit(phone) === 1) {
-      spaceNumbers = Math.ceil((phoneArr.length - 1)/3);
+      spaceNumbers = Math.ceil((phoneArr.length - 1) / 3);
       el = 2;
     }
     if (numberDigit(phone) === 2) {
@@ -129,12 +179,55 @@ const Form: React.FC = () => {
       phoneArrChange.splice(el, 0, " ");
       if (i === spaceNumbers - 2 && phoneArrChange.length - el < 7) {
         el = el + 3;
-      } else { 
+      } else {
         el = el + 4;
       }
     }
     return phoneArrChange.join("");
-  }
+  };
+
+  const addSpaces = (num: string) => {
+    return num.replace(/(\d{2,3}(?=(?:\d{2})))/g, "$1" + " ");
+  };
+
+  const rexpSpec = /\.|\ |\(|\)|\-/;
+
+  const formatPhone = (phone: string) => {
+    const resPhone = /^\+/.test(phone)
+      ? phone.split("+")
+      : phone.replace(/\\n/g, "").replace(/\\t/g, "");
+    const returnedPhone = Array.isArray(resPhone)
+      ? resPhone
+          .map((el) => {
+            if (el) {
+              return rexpSpec.test(el)
+                ? `+${el.replace(/\n/g, "").replace(/\t/g, "")}`
+                : `+${addSpaces(el.replace(/\n/g, "").replace(/\t/g, ""))}`;
+            }
+            return "";
+          })
+          .filter((el) => el != "")
+      : rexpSpec.test(resPhone)
+      ? resPhone
+      : addSpaces(resPhone);
+    return returnedPhone;
+  };
+
+  const phone10: string = "+375 666 744 12 12";
+  const phone11: string = "+401234745469";
+  const phone12: string = "+(376)444 112 45";
+  const phone13: string = "062.144-12 44";
+  const phone14: string = "060555489363";
+  const phone15: string = "+373-60 811-342";
+  const phone16: string = "+375 55 121 444+375 411 88 47\n\t\t";
+
+  console.log(formatPhone(phone10));
+  console.log(formatPhone(phone11));
+  console.log(formatPhone(phone12));
+  console.log(formatPhone(phone13));
+  console.log(formatPhone(phone14));
+  console.log(formatPhone(phone15));
+  console.log(formatPhone(phone16));
 
   return (
     <>
@@ -225,7 +318,7 @@ const Form: React.FC = () => {
         <p>{parsePhone(phone5)}</p>
         <p>{parsePhone(phone6)}</p>
         <p>{parsePhone(phone7)}</p>
-          <p>{parsePhone(phone8)}</p>
+        <p>{parsePhone(phone8)}</p>
       </div>
     </>
   );

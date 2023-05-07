@@ -2,6 +2,7 @@
 import parsePhoneNumber, { PhoneNumber } from "libphonenumber-js";
 import React, { useState, useEffect } from "react";
 import { SendDataInterface } from "@/SendDataInterface";
+import { nearCountries } from "@/nearCountries";
 
 const Form: React.FC = () => {
   const [nameSymbols, setNameSymbols] = useState(0);
@@ -220,7 +221,7 @@ const Form: React.FC = () => {
   const phone14: string = "060555489363";
   const phone15: string = "+373-60 811-342";
   const phone16: string = "+375 55 121 444+375 411 88 47\n\t\t";
-
+/*
   console.log(formatPhone(phone10));
   console.log(formatPhone(phone11));
   console.log(formatPhone(phone12));
@@ -228,6 +229,13 @@ const Form: React.FC = () => {
   console.log(formatPhone(phone14));
   console.log(formatPhone(phone15));
   console.log(formatPhone(phone16));
+*/
+  const country = "RO";
+
+  const nearRO = nearCountries.find(el => el[country])![country]
+    .map((el) => el["country_code"]);
+
+  console.log(nearRO);
 
   return (
     <>

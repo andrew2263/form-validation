@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import Form from '../components/Form';
+import Basic from '../components/NewForm';
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
           Form
         </h1>
         <Form />
+        {/*<Basic />*/}
       </main>
     </>
   )

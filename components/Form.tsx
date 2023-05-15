@@ -328,6 +328,28 @@ const Form: React.FC = () => {
         <p>{parsePhone(phone7)}</p>
         <p>{parsePhone(phone8)}</p>
       </div>
+      <table className="my-5 w-full">
+        <tr className="grid grid-cols-12 gap-2">
+          <th className="col-span-5 border border-gray-700 text-start flex items-end">
+            Text
+          </th>
+          <td className="col-span-7 flex border border-gray-700">
+            <div className="rounded-full bg-cyan-800 h-16 w-16 mr-5"></div>
+            <p>Text 2</p>
+          </td>
+        </tr>
+      </table>
+      <table className="my-5 w-full">
+        <tr className="">
+          <th className="border border-gray-700 text-start align-bottom">
+            Text
+          </th>
+          <td className="flex border border-gray-700">
+            <div className="rounded-full bg-cyan-800 h-16 w-16 mr-5"></div>
+            <p>Text 2</p>
+          </td>
+        </tr>
+      </table>
     </>
   );
 };

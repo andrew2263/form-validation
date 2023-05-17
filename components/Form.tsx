@@ -1,6 +1,8 @@
 //https://www.npmjs.com/package/libphonenumber-js
 import parsePhoneNumber, { PhoneNumber } from "libphonenumber-js";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import SearchComponent from "./SearchComponent";
+import SearchInput from "./SearchInput";
 import { SendDataInterface } from "@/SendDataInterface";
 import { nearCountries } from "@/nearCountries";
 
@@ -13,10 +15,43 @@ const Form: React.FC = () => {
   const [nameIsTouched, setNameIsTouched] = useState(false);
   const [emailIsTouched, setEmailIsTouched] = useState(false);
 
+  const [isLoaded, setLoaded] = useState(false);
+  const [isToRemove, setToRemove] = useState(false);
+
   const [nameValue, setNameValue] = useState("");
   const [emailValue, setEmailValue] = useState("");
   const [messageValue, setMessageValue] = useState("");
   const [subjectValue, setSubjectValue] = useState("");
+
+  //let timeoutRef = useRef<NodeJS.Timeout>(null);
+
+  useEffect(() => {
+    let timeoutRef: ReturnType<typeof setTimeout>;
+    //if (isLoaded === "loading") {
+    if (!isLoaded && !isToRemove) {
+      //timeoutRef = setTimeout(() => {setLoaded("loaded")}, 5000);
+      timeoutRef = setTimeout(() => {setLoaded(true)}, 5000);
+      return () => clearTimeout(timeoutRef);
+    }
+    if (isToRemove) {
+      return () => clearTimeout(timeoutRef);
+    }
+  }, [isLoaded, isToRemove]);
+/*
+  useEffect(() => {
+    if (isToRemove) {
+      setToRemove(false);
+      //return () => clearTimeout(timeoutRef.current);
+      setTimeout(() => {
+        return setLoaded(false);
+      }, 3000);
+    }
+  }, [isToRemove]);
+*/
+  const handleToRemove = () => {
+    setToRemove(true);
+   // setLoaded("abort");
+  };
 
   let isEmail: RegExp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
@@ -221,7 +256,7 @@ const Form: React.FC = () => {
   const phone14: string = "060555489363";
   const phone15: string = "+373-60 811-342";
   const phone16: string = "+375 55 121 444+375 411 88 47\n\t\t";
-/*
+  /*
   console.log(formatPhone(phone10));
   console.log(formatPhone(phone11));
   console.log(formatPhone(phone12));
@@ -232,13 +267,14 @@ const Form: React.FC = () => {
 */
   const country = "RO";
 
-  const nearRO = nearCountries.find(el => el[country])![country]
-    .map((el) => el["country_code"]);
+  const nearRO = nearCountries
+    .find((el) => el[country])!
+    [country].map((el) => el["country_code"]);
 
   console.log(nearRO);
 
   return (
-    <>
+    <div className="relative">
       <form
         onSubmit={formSubmitHandler}
         action="https://mailthis.to/"
@@ -313,7 +349,16 @@ const Form: React.FC = () => {
         </button>
       </form>
       <div className="grid grid-cols-1 sm:grid-cols-4 gap-2">
-        <div className="h-20 bg-red-950 sm:col-span-3 shadow-xl shadow-slate-400"></div>
+        <div className="h-20 bg-red-950 sm:col-span-3 shadow-xl shadow-slate-400 p-5 flex">
+          <button
+            className="p-2 border border-white text-white bg-slate-900"
+            type="button"
+            onClick={handleToRemove}
+          >
+            CHANGE
+          </button>
+          <SearchComponent Child={SearchInput} setToRemove={setToRemove} />
+        </div>
         <div className="h-20 bg-red-950 sm:col-span-1"></div>
       </div>
       <div className="border-2 border-gray-700 p-5">
@@ -328,7 +373,7 @@ const Form: React.FC = () => {
         <p>{parsePhone(phone7)}</p>
         <p>{parsePhone(phone8)}</p>
       </div>
-      <table className="my-5 w-full">
+      {/*<table className="my-5 w-full">
         <tr className="grid grid-cols-12 gap-2">
           <th className="col-span-5 border border-gray-700 text-start flex items-end">
             Text
@@ -339,18 +384,25 @@ const Form: React.FC = () => {
           </td>
         </tr>
       </table>
-      <table className="my-5 w-full">
-        <tr className="">
-          <th className="border border-gray-700 text-start align-bottom">
-            Text
-          </th>
-          <td className="flex border border-gray-700">
-            <div className="rounded-full bg-cyan-800 h-16 w-16 mr-5"></div>
-            <p>Text 2</p>
-          </td>
-        </tr>
-      </table>
-    </>
+      {/*<table className="my-5 w-full">
+        <tbody>
+          <tr className="">
+            <th className="border border-gray-700 text-start align-bottom">
+              Text
+            </th>
+            <td className="flex border border-gray-700">
+              <div className="rounded-full bg-cyan-800 h-16 w-16 mr-5"></div>
+              <p>Text 2</p>
+            </td>
+          </tr>
+        </tbody>
+          </table>*/}
+      {isLoaded && (
+        <div className="fixed bottom-0 left-0 z-20 h-30 w-full">
+          <div className="w-full h-20 bg-purple-700"></div>
+        </div>
+      )}
+    </div>
   );
 };
 

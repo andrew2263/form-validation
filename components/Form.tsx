@@ -23,13 +23,15 @@ const Form: React.FC = () => {
   const [messageValue, setMessageValue] = useState("");
   const [subjectValue, setSubjectValue] = useState("");
 
-  //let timeoutRef = useRef<NodeJS.Timeout>(null);
+  interface RefObject {
+    current: number | undefined | null;
+  };
+
+//  let timeoutRef: any = useRef(null);
 
   useEffect(() => {
     let timeoutRef: ReturnType<typeof setTimeout>;
-    //if (isLoaded === "loading") {
     if (!isLoaded && !isToRemove) {
-      //timeoutRef = setTimeout(() => {setLoaded("loaded")}, 5000);
       timeoutRef = setTimeout(() => {setLoaded(true)}, 5000);
       return () => clearTimeout(timeoutRef);
     }
@@ -38,15 +40,16 @@ const Form: React.FC = () => {
     }
   }, [isLoaded, isToRemove]);
 /*
+
   useEffect(() => {
-    if (isToRemove) {
-      setToRemove(false);
-      //return () => clearTimeout(timeoutRef.current);
-      setTimeout(() => {
-        return setLoaded(false);
-      }, 3000);
+    if (!isLoaded && !isToRemove) {
+      timeoutRef.current = setTimeout(() => {setLoaded(true)}, 5000);
+      return () => window.clearTimeout(timeoutRef.current);
     }
-  }, [isToRemove]);
+    if (isToRemove) {
+      return () => clearTimeout(timeoutRef.current);
+    }
+  }, [isLoaded, isToRemove]);
 */
   const handleToRemove = () => {
     setToRemove(true);
@@ -273,6 +276,8 @@ const Form: React.FC = () => {
 
   console.log(nearRO);
 
+  let slugify = require("slugify");
+
   return (
     <div className="relative">
       <form
@@ -359,7 +364,11 @@ const Form: React.FC = () => {
           </button>
           <SearchComponent Child={SearchInput} setToRemove={setToRemove} />
         </div>
-        <div className="h-20 bg-red-950 sm:col-span-1"></div>
+        <div className="h-20 bg-red-950 sm:col-span-1 p-3">
+          <p className="text-white">
+            {slugify("Текст новый текст очень красивые буквы я пишу какую-то хуйню тут не пойми зачем", " ")}
+          </p>
+        </div>
       </div>
       <div className="border-2 border-gray-700 p-5">
         <p>{phoneNumber1?.formatInternational()}</p>
@@ -399,7 +408,11 @@ const Form: React.FC = () => {
           </table>*/}
       {isLoaded && (
         <div className="fixed bottom-0 left-0 z-20 h-30 w-full">
-          <div className="w-full h-20 bg-purple-700"></div>
+          <div className="w-full h-20 bg-purple-700">
+          <p className="text-white">
+            {slugify("Найгарячішою ділянкою залишається Схід. Разом з тим середа, 17 травня, – це уже 448 доба повномасштабної війни. Про найголовніше за цей день читайте в матеріалі 24 Каналу.", " ")}
+          </p>
+          </div>
         </div>
       )}
     </div>

@@ -2,6 +2,8 @@ import Head from 'next/head';
 import Form from '../components/Form';
 import Basic from '../components/NewForm';
 
+const isModal = true;
+
 export default function Home() {
   return (
     <>
@@ -11,6 +13,11 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      {/* isModal && (
+      <div className="fixed top-0 left-0 z-[1000] h-screen w-screen bg-slate-900/90 flex items-center justify-center">
+        <div className="h-40 w-40 bg-white flex items-center justify-center">MODAL</div>
+      </div>
+      ) */}
       <main>
         <h1 className="text-3xl font-bold underline mb-7">
           Form

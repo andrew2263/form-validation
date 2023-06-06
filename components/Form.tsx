@@ -280,7 +280,10 @@ const Form: React.FC = () => {
 
   let slugify = require("slugify");
 
+  const isModal = true;
+
   return (
+    <>
     <div className="relative">
       <form
         onSubmit={formSubmitHandler}
@@ -417,7 +420,7 @@ const Form: React.FC = () => {
           </tr>
         </tbody>
           </table>*/}
-      {isLoaded && (
+      {/*isLoaded && (
         <div className="fixed bottom-0 left-0 z-20 h-30 w-full">
           <div className="w-full h-20 bg-purple-700">
             <p className="text-white">
@@ -428,8 +431,9 @@ const Form: React.FC = () => {
             </p>
           </div>
         </div>
-      )}
+              )*/}
     </div>
+    </>
   );
 };
 

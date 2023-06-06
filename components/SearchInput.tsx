@@ -21,7 +21,8 @@ const SearchInput = ({
         }}
       />
       {isFocus && (
-        <div className="fixed top-0 bottom-0 left-0 right-0 z-40 bg-yellow-200 p-10">
+        <div className="fixed top-0 left-0 h-screen w-screen z-40 overflow-hidden bg-yellow-200 p-10">
+        {/*<div className="fixed top-0 bottom-0 left-0 right-0 overflow-hidden z-40 bg-yellow-200 p-10">*/}
           <input
             type="text"
             name="search"

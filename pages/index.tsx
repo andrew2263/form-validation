@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import Form from '../components/Form';
 import Basic from '../components/NewForm';
+import PreviewComponent from '../components/PreviewComponent';
 
 const isModal = true;
 
@@ -23,6 +24,7 @@ export default function Home() {
           Form
         </h1>
         <Form />
+        <PreviewComponent />
         {/*<Basic />*/}
       </main>
     </>

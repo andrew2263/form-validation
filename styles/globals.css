@@ -2,4 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.react-pdf__Page__textContent {
+  display: none; 
+}
 
+.react-pdf__Page__annotations {
+  display: none;
+}
